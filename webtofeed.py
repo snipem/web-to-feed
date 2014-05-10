@@ -41,15 +41,8 @@ def getParentWithLink(item, linkHeigth):
 	else:
 		return None
 
-def parseUrl(url, tag):
+def parseString(html, url, tag):
 
-	r = requests.get(url)
-
-	if (r.status_code != 200):
-		sys.stderr.write("Error code is "+ str(r.status_code)+"\n")
-		exit(1)
-
-	html = r.text
 	parsed_html = BeautifulSoup(html)
 
 	parsedUrl = urlparse(url)
@@ -90,7 +83,24 @@ def parseUrl(url, tag):
 			fe.title(topic)
 			fe.link( href=fullLink )
 
-	rssfeed  = fg.rss_str(pretty=True)
+	return fg
+
+def parseUrl(url, tag):
+
+	r = requests.get(url)
+
+	if (r.status_code != 200):
+		sys.stderr.write("Error code is "+ str(r.status_code)+"\n")
+		exit(1)
+
+	html = r.text
+
+	return parseString(html, url, tag)
+
+def createFeedString(feed, feedtype):
+
+	#TODO Parse for feedtype
+	rssfeed = fg.rss_str(pretty=True)
 	return rssfeed
 
 def main():
@@ -103,12 +113,13 @@ def main():
 	url = args.url
 	tag = args.tag
 
-	rssfeed = parseUrl(url, tag)
+	feed = parseUrl(url, tag)
+	feedString = createFeedString("RSS", feed)
 
 	if (sys.version_info[0] == 2):
-		print (rssfeed)
+		print (feedString)
 	else:
-		sys.stdout.buffer.write(rssfeed)
+		sys.stdout.buffer.write(feedString)
 
 if __name__ == "__main__":
     main()
