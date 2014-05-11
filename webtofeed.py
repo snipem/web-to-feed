@@ -100,7 +100,7 @@ def parseUrl(url, tag):
 def createFeedString(feed, feedtype):
 
 	#TODO Parse for feedtype
-	rssfeed = fg.rss_str(pretty=True)
+	rssfeed = feed.rss_str(pretty=True)
 	return rssfeed
 
 def main():
@@ -114,12 +114,9 @@ def main():
 	tag = args.tag
 
 	feed = parseUrl(url, tag)
-	feedString = createFeedString("RSS", feed)
+	feedString = createFeedString(feed, "RSS")
 
-	if (sys.version_info[0] == 2):
-		print (feedString)
-	else:
-		sys.stdout.buffer.write(feedString)
+	print(feedString.decode('utf-8') if type(feedString) == type(b'') else feedString)
 
 if __name__ == "__main__":
     main()
