@@ -3,6 +3,11 @@ web-to-feed
 
 Transforms a standard web site to a subscribable feed like RSS
 
+Example
+-------
+
+`python webtofeed.py --url http://www.gamespot.com/videos/review/ --tag h3`
+
 Usage
 -----
 
@@ -17,4 +22,5 @@ Remark
 ------
 
 [![Build Status](https://travis-ci.org/snipem/web-to-feed.svg?branch=master)](https://travis-ci.org/snipem/web-to-feed)
+
 Currently failing due to python-feedgen Python3 incompatability
